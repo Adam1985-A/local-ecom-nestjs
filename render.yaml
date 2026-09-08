@@ -1,0 +1,114 @@
+services:
+  # ── Web Service (NestJS API) ───────────────────────────────────────────────
+  - type: web
+    name: local-essentials-api
+    runtime: node
+    region: oregon          # change to: ohio | singapore | frankfurt | ohio
+    plan: starter           # free | starter | standard | pro
+    buildCommand: npm install && npm run build
+    startCommand: node dist/main
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: 3000
+
+      - key: API_PREFIX
+        value: api/v1
+
+      # ── Database — auto-filled by Render when you link the DB ──────────────
+      - key: DB_HOST
+        fromDatabase:
+          name: local-essentials-db
+          property: host
+
+      - key: DB_PORT
+        fromDatabase:
+          name: local-essentials-db
+          property: port
+
+      - key: DB_USERNAME
+        fromDatabase:
+          name: local-essentials-db
+          property: user
+
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: local-essentials-db
+          property: password
+
+      - key: DB_NAME
+        fromDatabase:
+          name: local-essentials-db
+          property: database
+
+      - key: DB_SSL
+        value: "true"
+
+      - key: DB_SYNCHRONIZE
+        value: "false"
+
+      # ── JWT — set these manually in the Render dashboard ──────────────────
+      - key: JWT_ACCESS_SECRET
+        sync: false          # Render will prompt you to fill this in
+
+      - key: JWT_REFRESH_SECRET
+        sync: false
+
+      - key: JWT_ACCESS_EXPIRES_IN
+        value: 15m
+
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+
+      # ── Paystack ──────────────────────────────────────────────────────────
+      - key: PAYSTACK_SECRET_KEY
+        sync: false
+
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false
+
+      - key: PAYSTACK_BASE_URL
+        value: https://api.paystack.co
+
+      - key: PAYSTACK_CALLBACK_URL
+        sync: false          # e.g. https://your-api.onrender.com/api/v1/payments/paystack/callback
+
+      # ── Cloudinary ────────────────────────────────────────────────────────
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+
+      - key: CLOUDINARY_API_KEY
+        sync: false
+
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+      # ── Redis — optional (rate limiting/caching) ──────────────────────────
+      - key: REDIS_HOST
+        sync: false          # from Render Redis service or Upstash
+
+      - key: REDIS_PORT
+        value: "6379"
+
+      - key: REDIS_PASSWORD
+        sync: false
+
+      - key: REDIS_TLS
+        value: "true"
+
+      # ── CORS ──────────────────────────────────────────────────────────────
+      - key: CORS_ORIGINS
+        value: "*"           # replace with your frontend URL in production
+
+  # ── PostgreSQL Database ────────────────────────────────────────────────────
+databases:
+  - name: local-essentials-db
+    databaseName: local_essentials
+    user: local_essentials_user
+    region: oregon
+    plan: starter            # free | starter | standard
