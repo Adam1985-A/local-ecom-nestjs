@@ -7,6 +7,7 @@
 
 # ── Environment files ────────────────────────────────────────────────────────
 .env
+.env.production
 .env.local
 .env.*.local
 # Keep .env.example in version control so devs know what vars are needed

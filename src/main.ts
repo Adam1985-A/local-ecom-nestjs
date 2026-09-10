@@ -26,7 +26,7 @@ logger:
   
   const corsOrigins = configService.get<string[]>('app.corsOrigins') ?? ['*'];
 
-  app.use('trust proxy', 1);
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
   app.use(helmet());
   app.use(compression());
   app.enableCors({
