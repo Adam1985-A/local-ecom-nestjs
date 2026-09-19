@@ -9,11 +9,11 @@ import { UserRole } from '../common/enums/user.role.enum.js';
 export class User extends BaseEntity {
 
   @Index({ unique: true }) 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   email!: string;
 
   @Index({ unique: true }) 
-  @Column({ nullable: true }) 
+  @Column({ type: 'varchar', length: 20, nullable: true }) 
   phone?: string;
 
   @OneToMany(() => Cart, (cart) => cart.user)
@@ -22,40 +22,40 @@ export class User extends BaseEntity {
   @OneToMany('Vendor', (vendor: Vendor) => vendor.user)
   vendors!: Relation<Vendor[]>;
 
-  @Column({ select: false }) 
+  @Column({ type: 'varchar', select: false }) 
   password!: string;
 
-  @Column({ name: 'first_name' }) 
+  @Column({ type: 'text', name: 'first_name' }) 
   firstName!: string;
 
-  @Column({ name: 'last_name' }) 
+  @Column({ type: 'text',name: 'last_name' }) 
   lastName!: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER }) 
   role!: UserRole;
 
-  @Column({ name: 'avatar_url', nullable: true }) 
+  @Column({ name: 'avatar_url', type: 'varchar', nullable: true }) 
   avatarUrl?: string;
 
-  @Column({ name: 'is_active', default: true }) 
+  @Column({ name: 'is_active', type: 'boolean', default: true }) 
   isActive!: boolean;
 
-  @Column({ name: 'is_email_verified', default: false }) 
+  @Column({ name: 'is_email_verified', type: 'boolean', default: false }) 
   isEmailVerified!: boolean;
 
-  @Column({ name: 'is_phone_verified', default: false }) 
+  @Column({ name: 'is_phone_verified', type: 'boolean', default: false }) 
   isPhoneVerified!: boolean;
 
-  @Column({ name: 'refresh_token_hash', select: false, nullable: true }) 
+  @Column({ name: 'refresh_token_hash', type: 'varchar', select: false, nullable: true }) 
   refreshTokenHash?: string;
 
-  @Column({ nullable: true }) 
+  @Column({ type: 'varchar', nullable: true }) 
   address?: string;
 
-  @Column({ nullable: true }) 
+  @Column({ type: 'varchar', nullable: true }) 
   city?: string;
 
-  @Column({ nullable: true }) 
+  @Column({ type: 'varchar', nullable: true }) 
   state?: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true }) 

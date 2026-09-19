@@ -7,17 +7,17 @@ import { RiderStatus } from '../common/enums/rider-status.enum.js';
 export class Rider extends BaseEntity {
 
   @Index({ unique: true }) 
-  @Column({ name: 'user_id' }) 
+  @Column({ name: 'user_id', type: 'uuid' }) 
   userId!: string;
 
   @OneToOne(() => User, { onDelete: 'CASCADE' }) 
   @JoinColumn({ name: 'user_id' }) 
   user!: User;
 
-  @Column({ name: 'vehicle_type' }) 
+  @Column({ name: 'vehicle_type', type: 'varchar' }) 
   vehicleType!: string;
 
-  @Column({ name: 'vehicle_plate', nullable: true }) 
+  @Column({ name: 'vehicle_plate', type: 'varchar', nullable: true }) 
   vehiclePlate?: string;
 
   @Column({ type: 'enum', enum: RiderStatus, default: RiderStatus.OFFLINE }) 
@@ -29,21 +29,21 @@ export class Rider extends BaseEntity {
   @Column({ name: 'current_longitude', type: 'decimal', precision: 10, scale: 7, nullable: true }) 
   currentLongitude?: number;
 
-  @Column({ name: 'is_verified', default: false }) 
+  @Column({ name: 'is_verified', type: 'boolean', default: false }) 
   isVerified!: boolean;
 
-  @Column({ name: 'total_deliveries', default: 0 }) 
+  @Column({ name: 'total_deliveries', type: 'integer', default: 0 }) 
   totalDeliveries!: number;
 
   @Column({ name: 'average_rating', type: 'decimal', precision: 3, scale: 2, default: 0 }) 
   averageRating!: number;
 
-  @Column({ nullable: true }) 
+  @Column({ type: 'varchar', nullable: true }) 
   nin?: string;
 
-  @Column({ name: 'guarantor_name', nullable: true }) 
+  @Column({ name: 'guarantor_name', type: 'varchar', nullable: true }) 
   guarantorName?: string;
 
-  @Column({ name: 'guarantor_phone', nullable: true }) 
+  @Column({ name: 'guarantor_phone', type: 'varchar', nullable: true }) 
   guarantorPhone?: string;
 }

@@ -7,7 +7,7 @@ import { NotificationChannel } from "../common/enums/notification-channels.enum.
 @Entity("notifications")
 export class Notification extends BaseEntity {
   @Index()
-  @Column({ name: "user_id" })
+  @Column({ name: "user_id", type: 'uuid' })
   userId!: string;
 
   @ManyToOne(() => User, { onDelete: "CASCADE" })
@@ -20,7 +20,7 @@ export class Notification extends BaseEntity {
   @Column({ type: "enum", enum: NotificationChannel })
   channel!: NotificationChannel;
 
-  @Column()
+  @Column({ type: 'varchar'})
   title!: string;
 
   @Column({ type: "text" })
@@ -29,13 +29,13 @@ export class Notification extends BaseEntity {
   @Column({ type: "jsonb", nullable: true })
   metadata?: Record<string, unknown>;
 
-  @Column({ name: "is_read", default: false })
+  @Column({ name: "is_read", type: 'boolean', default: false })
   isRead!: boolean;
 
-  @Column({ name: "sent_at", nullable: true })
+  @Column({ name: "sent_at", type: 'timestamp', nullable: true })
   sentAt?: Date;
 
   /** Points to the resource that triggered this notification (orderId, etc.). */
-  @Column({ name: "related_id", nullable: true })
+  @Column({ name: "related_id", type: 'uuid', nullable: true })
   relatedId?: string;
 }

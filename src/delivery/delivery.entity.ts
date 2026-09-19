@@ -8,7 +8,7 @@ import { DeliveryStatus } from '../common/enums/delivery-status.enum.js';
 export class Delivery extends BaseEntity {
 
   @Index({ unique: true }) 
-  @Column({ name: 'order_id' }) 
+  @Column({ name: 'order_id', type: 'uuid' }) 
   orderId!: string;
 
   @OneToOne(() => Order, { onDelete: 'CASCADE' }) 
@@ -16,7 +16,7 @@ export class Delivery extends BaseEntity {
   order!: Order;
 
   @Index() 
-  @Column({ name: 'rider_id', nullable: true }) 
+  @Column({ name: 'rider_id', type: 'uuid', nullable: true }) 
   riderId?: string;
 
   @ManyToOne(() => Rider, { nullable: true, onDelete: 'SET NULL' }) 
@@ -26,13 +26,13 @@ export class Delivery extends BaseEntity {
   @Column({ type: 'enum', enum: DeliveryStatus, default: DeliveryStatus.PENDING }) 
   status!: DeliveryStatus;
 
-  @Column({ name: 'assigned_at', nullable: true }) 
+  @Column({ name: 'assigned_at', type: 'timestamp', nullable: true }) 
   assignedAt?: Date;
 
-  @Column({ name: 'picked_up_at', nullable: true }) 
+  @Column({ name: 'picked_up_at', type: 'timestamp', nullable: true }) 
   pickedUpAt?: Date;
 
-  @Column({ name: 'delivered_at', nullable: true }) 
+  @Column({ name: 'delivered_at', type: 'timestamp', nullable: true }) 
   deliveredAt?: Date;
 
   @Column({ name: 'delivery_fee', type: 'decimal', precision: 12, scale: 2, default: 0 }) 

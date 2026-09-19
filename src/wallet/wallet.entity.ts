@@ -6,7 +6,7 @@ import { User } from '../users/user.entity.js';
 export class Wallet extends BaseEntity {
 
   @Index({ unique: true }) 
-  @Column({ name: 'user_id' }) 
+  @Column({ name: 'user_id', type: 'uuid' }) 
   userId!: string;
 
   @OneToOne(() => User, { onDelete: 'CASCADE' }) 
@@ -19,6 +19,6 @@ export class Wallet extends BaseEntity {
   @Column({ name: 'locked_balance', type: 'decimal', precision: 15, scale: 2, default: 0 }) 
   lockedBalance!: number;
 
-  @Column({ name: 'is_active', default: true }) 
+  @Column({ name: 'is_active', type: 'boolean', default: true }) 
   isActive!: boolean;
 }

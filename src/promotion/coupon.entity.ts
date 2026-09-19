@@ -46,7 +46,7 @@ export class Coupon extends BaseEntity {
   @Column({ name: "usage_count", default: 0 })
   usageCount!: number;
 
-  @Column({ name: "vendor_id", nullable: true })
+  @Column({ name: "vendor_id", type: 'uuid', nullable: true })
   vendorId?: string;
 
   @ManyToOne(() => Vendor, { nullable: true, onDelete: "SET NULL" })

@@ -8,14 +8,14 @@ import { Category } from '../categories/category.entity.js';
 export class Product extends BaseEntity {
 
   @Index() 
-  @Column({ name: 'vendor_id' }) 
+  @Column({ name: 'vendor_id', type: 'uuid' }) 
   vendorId!: string;
 
   @ManyToOne( 'Vendor', { onDelete: 'CASCADE' }) 
   @JoinColumn({ name: 'vendor_id' }) 
   vendor!: Relation<Vendor>;
 
-  @Column({ name: 'category_id' }) 
+  @Column({ name: 'category_id', type: 'uuid' }) 
   categoryId!: string;
 
   @ManyToOne(() => Category, { onDelete: 'RESTRICT' }) 
@@ -25,11 +25,11 @@ export class Product extends BaseEntity {
   @OneToMany(() => CartItem, (item) => item.product)
     cartItems! : CartItem[];
 
-  @Column() 
+  @Column({ type: 'varchar'}) 
   name!: string;
 
   @Index({ unique: true }) 
-  @Column() 
+  @Column({ type: 'varchar'}) 
   slug!: string;
 
   @Column({ type: 'text', nullable: true }) 
@@ -41,22 +41,22 @@ export class Product extends BaseEntity {
   @Column({ name: 'discounted_price', type: 'decimal', precision: 12, scale: 2, nullable: true }) 
   discountedPrice?: number;
 
-  @Column({ name: 'image_url', nullable: true })
+  @Column({ name: 'image_url', type: 'varchar', nullable: true })
   imageUrl?: string;
 
-  @Column({ name: 'image_public_id', nullable: true }) 
+  @Column({ name: 'image_public_id', type: 'varchar', nullable: true }) 
   imagePublicId?: string;
 
-  @Column({ nullable: true }) 
+  @Column({ type: 'varchar', nullable: true }) 
   unit?: string;
 
-  @Column({ name: 'is_active', default: true }) 
+  @Column({ name: 'is_active', type: 'boolean', default: true }) 
   isActive!: boolean;
 
   @Column({ name: 'average_rating', type: 'decimal', precision: 3, scale: 2, default: 0 }) 
   averageRating!: number;
 
-  @Column({ name: 'total_reviews', default: 0 }) 
+  @Column({ name: 'total_reviews', type: 'int', default: 0 }) 
   totalReviews!: number;
 
   get effectivePrice(): number {

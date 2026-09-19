@@ -11,21 +11,21 @@ import { PaymentStatus } from '../common/enums/payment-status.enums.js';
 @Entity('order_items')
 export class OrderItem extends BaseEntity {
 
-  @Column({ name: 'order_id' }) 
+  @Column({ name: 'order_id', type: 'uuid' }) 
   orderId!: string;
 
   @ManyToOne('Order', (order: Order) => order.items, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'order_id' }) 
   order!: Relation<Order>;
 
-  @Column({ name: 'product_id', nullable: true }) 
+  @Column({ name: 'product_id', type: 'uuid', nullable: true }) 
   productId?: string;
 
   @ManyToOne('Product', { onDelete: 'SET NULL', nullable: true }) 
   @JoinColumn({ name: 'product_id' }) 
   product?: Relation<Product>;
 
-  @Column({ name: 'product_name' }) 
+  @Column({ name: 'product_name', type: 'varchar', length: 255 }) 
   productName!: string;
 
   @Column({ name: 'unit_price', type: 'decimal', precision: 12, scale: 2 }) 

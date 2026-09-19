@@ -16,7 +16,7 @@ import { Product } from "../products/products.entity.js";
 @Check('"rating" BETWEEN 1 AND 5')
 export class Review extends BaseEntity {
   @Index()
-  @Column({ name: "customer_id" })
+  @Column({ name: "customer_id", type: 'uuid' })
   customerId!: string;
 
   @ManyToOne(() => User, { onDelete: "CASCADE" })
@@ -24,7 +24,7 @@ export class Review extends BaseEntity {
   customer!: User;
 
   @Index()
-  @Column({ name: "order_id" })
+  @Column({ name: "order_id", type: 'uuid' })
   orderId!: string;
 
   @ManyToOne(() => Order, { onDelete: "CASCADE" })
@@ -32,14 +32,14 @@ export class Review extends BaseEntity {
   order!: Order;
 
   @Index()
-  @Column({ name: "vendor_id" })
+  @Column({ name: "vendor_id", type: 'uuid' })
   vendorId!: string;
 
   @ManyToOne(() => Vendor, { onDelete: "CASCADE" })
   @JoinColumn({ name: "vendor_id" })
   vendor!: Vendor;
 
-  @Column({ name: "product_id", nullable: true })
+  @Column({ name: "product_id", type: 'uuid', nullable: true })
   productId?: string;
 
   @ManyToOne(() => Product, { nullable: true, onDelete: "SET NULL" })
@@ -54,7 +54,7 @@ export class Review extends BaseEntity {
   comment?: string;
 
   /** Admin/vendor can hide inappropriate reviews. */
-  @Column({ name: "is_visible", default: true })
+  @Column({ name: "is_visible", type: 'boolean', default: true })
   isVisible!: boolean;
 }
 

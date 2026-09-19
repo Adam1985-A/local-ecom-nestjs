@@ -11,11 +11,11 @@ import { PaymentStatus } from '../common/enums/payment-status.enums.js';
 export class Order extends BaseEntity {
 
   @Index({ unique: true }) 
-  @Column() 
+  @Column({ type: 'varchar', length: 255 }) 
   reference!: string;
 
   @Index() 
-  @Column({ name: 'customer_id' }) 
+  @Column({ name: 'customer_id', type: 'uuid' }) 
   customerId!: string;
 
   @ManyToOne('User', { onDelete: 'RESTRICT' }) 
@@ -23,7 +23,7 @@ export class Order extends BaseEntity {
   customer!: Relation<User>;
 
   @Index() 
-  @Column({ name: 'vendor_id' }) 
+  @Column({ name: 'vendor_id', type: 'uuid' }) 
   vendorId!: string;
 
   @ManyToOne('Vendor', { onDelete: 'RESTRICT' }) 
@@ -54,16 +54,16 @@ export class Order extends BaseEntity {
   @Column({ name: 'payment_status', type: 'enum', enum: PaymentStatus, default: PaymentStatus.PENDING }) 
   paymentStatus!: PaymentStatus;
 
-  @Column({ name: 'coupon_code', nullable: true }) 
+  @Column({ name: 'coupon_code', type: 'varchar', nullable: true }) 
   couponCode?: string;
 
-  @Column({ name: 'delivery_address' }) 
+  @Column({ name: 'delivery_address', type: 'varchar' }) 
   deliveryAddress!: string;
 
-  @Column({ name: 'delivery_city' }) 
+  @Column({ name: 'delivery_city', type: 'varchar' }) 
   deliveryCity!: string;
 
-  @Column({ name: 'delivery_state' }) 
+  @Column({ name: 'delivery_state', type: 'varchar' }) 
   deliveryState!: string;
 
   @Column({ name: 'delivery_latitude', type: 'decimal', precision: 10, scale: 7, nullable: true }) 
@@ -78,7 +78,7 @@ export class Order extends BaseEntity {
   @Column({ name: 'vendor_note', type: 'text', nullable: true }) 
   vendorNote?: string;
 
-  @Column({ name: 'cancelled_reason', nullable: true }) 
+  @Column({ name: 'cancelled_reason', type: 'varchar', nullable: true }) 
   cancelledReason?: string;
 
   @Column({ name: 'commission_amount', type: 'decimal', precision: 12, scale: 2, default: 0 }) 

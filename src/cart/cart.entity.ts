@@ -9,14 +9,14 @@ import { Product } from '../products/products.entity.js';
 @Index(['userId', 'vendorId'], { unique: true })
 export class Cart extends BaseEntity {
 
-  @Column({ name: 'user_id' }) 
+  @Column({ name: 'user_id', type: 'uuid' }) 
   userId!: string;
 
   @ManyToOne('User', { onDelete: 'CASCADE' }) 
   @JoinColumn({ name: 'user_id' }) 
   user!: Relation<User>;
 
-  @Column({ name: 'vendor_id' }) 
+  @Column({ name: 'vendor_id', type: 'uuid' }) 
   vendorId!: string;
 
   @ManyToOne('Vendor', { onDelete: 'CASCADE' }) 

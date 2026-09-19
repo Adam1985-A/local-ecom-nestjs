@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProductsService } from './products.service.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
+import { ProductQueryDto } from './dto/product-query.dto.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
 import { CurrentUser } from '../common/decorator/current-user.decorator.js';
 import { Roles } from '../common/decorator/roles.decorator.js';
@@ -20,31 +21,12 @@ export class ProductsController {
   @Public() 
 
   @Get() 
-  findAll(@Query() q: PaginationQueryDto, 
-  @Query('vendorId') 
-  vendorId?: string, 
-
-  @Query('categoryId') 
-  categoryId?: string, @
-  Query('minPrice') minPrice?: number, 
-  @Query('maxPrice') 
-  maxPrice?: number) {
-    return this.productsService.findAll({ 
-      ...q, 
-      ...(vendorId !== undefined && { vendorId }),
-    ...(categoryId !== undefined && { categoryId }),
-    ...(minPrice !== undefined && { minPrice }),
-    ...(maxPrice !== undefined && { maxPrice }),
-    });
+  findAll(@Query() q: ProductQueryDto){ 
+ return this.productsService.findAll(q);
   }
 
-  @Public() 
-  @Get(':id') 
-  findOne(@Param('id', ParseUUIDPipe) id: string) { 
-    return this.productsService.findById(id);
-   }
 
-  @Get('vendor/my-products') 
+ @Get('vendor/my-products') 
   @Roles(UserRole.VENDOR)
 
   async findMyProducts(@CurrentUser('id') userId: string, 
@@ -52,7 +34,15 @@ export class ProductsController {
     const vendor = await this.vendorsService.findByUserId(userId);
     return this.productsService.findAllForVendor(vendor.id, q);
   }
+ 
+ 
+ @Public() 
+  @Get(':id') 
+  findOne(@Param('id', ParseUUIDPipe) id: string) { 
+    return this.productsService.findById(id);
+   }
 
+  
   @Post() 
   @Roles(UserRole.VENDOR) 
   async create(@CurrentUser('id') userId: string, 
@@ -60,6 +50,7 @@ export class ProductsController {
     const vendor = await this.vendorsService.findByUserId(userId);
     return this.productsService.create(vendor.id, dto);
   }
+
 
   @Patch(':id') 
   @Roles(UserRole.VENDOR, UserRole.ADMIN, UserRole.SUPER_ADMIN)
@@ -72,6 +63,7 @@ export class ProductsController {
   @Body() dto: UpdateProductDto) {
     return this.productsService.update(id, dto, actorId, actorRole);
   }
+
 
   @Delete(':id') 
   @Roles(UserRole.VENDOR, UserRole.ADMIN, UserRole.SUPER_ADMIN)

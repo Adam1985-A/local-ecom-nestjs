@@ -8,14 +8,14 @@ import type { Product } from '../products/products.entity.js';
 
 @Entity('cart_items')
 export class CartItem extends BaseEntity {
-  @Column({ name: 'cart_id' }) 
+  @Column({ name: 'cart_id', type: 'uuid' }) 
   cartId!: string;
 
   @ManyToOne('Cart', (cart: Cart) => cart.items, { onDelete: 'CASCADE' }) 
   @JoinColumn({ name: 'cart_id' }) 
   cart!: Relation<Cart>;
 
-  @Column({ name: 'product_id' }) 
+  @Column({ name: 'product_id', type: 'uuid' }) 
   productId!: string;
 
   @ManyToOne('Product', { onDelete: 'CASCADE' }) 

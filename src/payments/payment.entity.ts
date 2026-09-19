@@ -9,14 +9,14 @@ import { PaymentMethod } from '../common/enums/payment-method.enum.js';
 export class Payment extends BaseEntity {
 
   @Index({ unique: true }) 
-  @Column() 
+  @Column({ type: 'varchar'}) 
   reference!: string;
 
-  @Column({ name: 'gateway_reference', nullable: true }) 
+  @Column({ name: 'gateway_reference', type: 'varchar', length: 255, nullable: true }) 
   gatewayReference?: string;
 
   @Index()
-   @Column({ name: 'order_id' }) 
+   @Column({ name: 'order_id', type: 'uuid' }) 
    orderId!: string;
 
   @ManyToOne(() => Order, { onDelete: 'RESTRICT' }) 
@@ -24,7 +24,7 @@ export class Payment extends BaseEntity {
   order!: Order;
 
   @Index() 
-  @Column({ name: 'user_id' }) 
+  @Column({ name: 'user_id', type: 'uuid' }) 
   userId!: string;
 
   @ManyToOne(() => User, { onDelete: 'RESTRICT' }) 
@@ -44,6 +44,6 @@ export class Payment extends BaseEntity {
 
   @Column({ name: 'gateway_response', type: 'jsonb', nullable: true }) 
   gatewayResponse?: Record<string, unknown>;
-  @Column({ name: 'paid_at', nullable: true }) 
+  @Column({ name: 'paid_at', type: 'timestamp', nullable: true }) 
   paidAt?: Date;
 }

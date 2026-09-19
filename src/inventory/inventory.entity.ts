@@ -5,7 +5,7 @@ import { Product } from '../products/products.entity.js';
 @Entity('inventory')
 export class Inventory extends BaseEntity {
   @Index({ unique: true }) 
-  @Column({ name: 'product_id' }) 
+  @Column({ name: 'product_id', type: 'uuid' }) 
   productId!: string;
 
   @OneToOne(() => Product, { onDelete: 'CASCADE' }) 
@@ -18,10 +18,10 @@ export class Inventory extends BaseEntity {
   @Column({ name: 'low_stock_threshold', type: 'int', default: 5 }) 
   lowStockThreshold!: number;
 
-  @Column({ name: 'is_unlimited', default: false }) 
+  @Column({ name: 'is_unlimited', type: 'boolean', default: false }) 
   isUnlimited!: boolean;
 
-  @Column({ name: 'auto_deactivate', default: true }) 
+  @Column({ name: 'auto_deactivate', type: 'boolean', default: true }) 
   autoDeactivate!: boolean;
 }
 
